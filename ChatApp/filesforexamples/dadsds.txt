@@ -1,0 +1,234 @@
+private void btnClearISDR_Click(object sender, EventArgs e)
+        {
+            this.txtDataISDR.Text = "";
+            this.rtbISDR.Text = "";
+            this.txtDataISDR.Focus();      
+        }
+...................................................................
+  private void btnRandomISDR_Click(object sender, EventArgs e)
+        {
+            this.txtDataISDR.Text = "";//clear the textbox
+            this.txtDataISDR.Text = rnd.Next(1, 100).ToString();            
+            for (int i = 1; i < 5; i++)
+            {
+                this.txtDataISDR.AppendText("," + rnd.Next(1,100).ToString());
+            }
+            txtDataISDR.Focus();
+        }
+.......................................................................
+private void btnRunISDR_Click(object sender, EventArgs e)
+        {
+            int lengthISDR = 0;
+            double []isdrarray;
+            this.rtbISDR.Text = "";//clear the rich text box
+
+            string str = this.txtDataISDR.Text;
+            string[] strArr = null;
+
+
+            char[] splitchar = { ',' };
+            strArr = str.Split(splitchar);
+            lengthISDR = strArr.Length;
+
+            if (lengthISDR < 5 || lengthISDR > 10)
+            {
+                MessageBox.Show("Please Enter atleast 5 values separated by commas.\nMaximum number of values is 10.", "Error in Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            isdrarray = new double[lengthISDR]; //creating a double array to hold data
+            for (int isdrx = 0; isdrx < lengthISDR; isdrx++)
+            {
+                try
+                {
+                    isdrarray[isdrx] = Convert.ToDouble(strArr[isdrx].ToString());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Please Enter atleast 5 values separated by commas.\nMaximum number of values is 10.", "Error in Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            } 
+           
+            insertionSortDryRunFunction(isdrarray); //call the insertion sorting function
+
+               
+
+        }
+.............................................................................................
+ private void insertionSortDryRunFunction(double[] arrayisdr)
+        {
+            double isdrKey;
+            int isdrI;
+
+            rtbISDR.Text = ""; //clear the text in the richtextbox
+
+            rtbISDR.AppendText("----------------------------------------\n");        
+            for (int isdrx = 0; isdrx < arrayisdr.Length; isdrx++)
+            {
+                this.rtbISDR.AppendText(arrayisdr[isdrx].ToString() + " ");            
+            }
+        
+            rtbISDR.AppendText("\n----------------------------------------\n");
+
+            rtbISDR.AppendText(" for j  <-- 2 to " + arrayisdr.Length.ToString() + "\n");            
+            for( int isdrJ=1; isdrJ<arrayisdr.Length; isdrJ++)
+            {
+                isdrKey = arrayisdr[isdrJ];
+                rtbISDR.AppendText("     key  <--  " + isdrKey.ToString() + "\n");
+
+                    isdrI = isdrJ-1;
+                    rtbISDR.AppendText("     i  <--  " + (isdrI+1).ToString() + "\n");
+                    if (this.rdbAscISDR.Checked == true) //Ascending order sorting
+                    {
+                        rtbISDR.AppendText("     while " + (isdrI + 1).ToString() + " > 0 and " + arrayisdr[isdrI].ToString() + " > " + isdrKey.ToString() + "\n");
+                        while (isdrI > -1 && arrayisdr[isdrI] > isdrKey)
+                        {
+                            arrayisdr[isdrI + 1] = arrayisdr[isdrI];
+                            rtbISDR.AppendText("         A[" + (isdrI + 2).ToString() + "]  <--  " + arrayisdr[isdrI].ToString() + "\n");
+                            isdrI--;
+                            rtbISDR.AppendText("         i  <--  " + (isdrI + 1).ToString() + "\n");
+
+                            try
+                            {
+                                rtbISDR.AppendText("     while " + (isdrI + 1).ToString() + " > 0 and " + arrayisdr[isdrI].ToString() + " > " + isdrKey.ToString() + "\n");
+                            }
+                            catch (Exception ex)
+                            {
+                                rtbISDR.AppendText("     while 0 > 0\n");
+                            }
+
+                        }
+                    }
+                    else //Descending order sorting
+                    {                        
+                        rtbISDR.AppendText("     while " + (isdrI + 1).ToString() + " > 0 and " + arrayisdr[isdrI].ToString() + " < " + isdrKey.ToString() + "\n");
+                        while (isdrI > -1 && arrayisdr[isdrI] < isdrKey)
+                        {
+                            arrayisdr[isdrI + 1] = arrayisdr[isdrI];
+                            rtbISDR.AppendText("         A[" + (isdrI + 2).ToString() + "]  <--  " + arrayisdr[isdrI].ToString() + "\n");
+                            isdrI--;
+                            rtbISDR.AppendText("         i  <--  " + (isdrI + 1).ToString() + "\n");
+
+                            try
+                            {
+                                rtbISDR.AppendText("     while " + (isdrI + 1).ToString() + " > 0 and " + arrayisdr[isdrI].ToString() + " < " + isdrKey.ToString() + "\n");
+                            }
+                            catch (Exception ex)
+                            {
+                                rtbISDR.AppendText("     while 0 > 0\n");
+                            }
+
+                        }
+                    }
+                    
+                    rtbISDR.AppendText("\n");
+                    arrayisdr[isdrI+1] = isdrKey;
+                    rtbISDR.AppendText("     A[" + (isdrI + 2).ToString() + "]  <-- " + isdrKey.ToString() + "\n\n");
+
+                    rtbISDR.AppendText("----------------------------------------\n");
+                    for (int isdrx = 0; isdrx < arrayisdr.Length; isdrx++)
+                    {
+                        this.rtbISDR.AppendText(arrayisdr[isdrx].ToString() + "  ");
+                    }
+
+                    rtbISDR.AppendText("----------------------------------------\n");
+                    rtbISDR.AppendText(" for j  <-- "+(isdrJ+2).ToString()+" to " + arrayisdr.Length.ToString() + "\n");
+            }
+            rtbISDR.AppendText("\n----------------------------------------\n");
+            rtbISDR.AppendText(" Sorted Data\n");
+                rtbISDR.AppendText("----------------------------------------\n");
+            for(int isdrx=0; isdrx<arrayisdr.Length; isdrx++)
+            {
+                this.rtbISDR.AppendText(arrayisdr[isdrx].ToString() + "  ");
+            }
+            rtbISDR.AppendText("\n\n");
+
+        }
+...............................................................................
+ public void bubbleSortDryRunFunction(double [] arraybsdr)
+        {
+            rtbBSDR.Text = ""; //clear the text in the richtextbox
+
+            rtbBSDR.AppendText("----------------------------------------\n");
+            for (int bsdrx = 0; bsdrx < arraybsdr.Length; bsdrx++)
+            {
+                this.rtbBSDR.AppendText(arraybsdr[bsdrx].ToString() + " ");
+            }
+
+            rtbBSDR.AppendText("\n----------------------------------------\n");
+
+            rtbBSDR.AppendText(" for j  <-- 2 to " + arraybsdr.Length.ToString() + "\n");
+            
+            for (int pass = 1; pass < arraybsdr.Length; pass++)
+            {
+                rtbBSDR.AppendText("    for i  <--  1 to " + (arraybsdr.Length - pass).ToString() + "\n");
+                for (int bx = 0; bx < arraybsdr.Length - pass; bx++)
+                {
+                    if (this.rdbAscBSDR.Checked == true) //ascending order sorting
+                    {
+                        rtbBSDR.AppendText("        if " + arraybsdr[bx].ToString() + " > " + arraybsdr[bx + 1].ToString() + "\n");
+                        if (arraybsdr[bx] > arraybsdr[bx + 1])
+                        {
+                            rtbBSDR.AppendText("            exchange " + arraybsdr[bx].ToString() + " <-->  " + arraybsdr[bx + 1].ToString() + "\n");
+                            //swapping values
+                            double btemp = arraybsdr[bx];
+                            arraybsdr[bx] = arraybsdr[bx + 1];
+                            arraybsdr[bx + 1] = btemp;
+
+                            //print the new order of array
+                            rtbBSDR.AppendText("\n----------------------------------------\n");
+                            for (int bsdrx = 0; bsdrx < arraybsdr.Length; bsdrx++)
+                            {
+                                this.rtbBSDR.AppendText(arraybsdr[bsdrx].ToString() + " ");
+                            }
+                            rtbBSDR.AppendText("----------------------------------------\n\n");
+                        }
+                    }
+                    else //descending order sorting
+                    {
+                        rtbBSDR.AppendText("        if " + arraybsdr[bx].ToString() + " < " + arraybsdr[bx + 1].ToString() + "\n");
+                        if (arraybsdr[bx] < arraybsdr[bx + 1])
+                        {
+                            rtbBSDR.AppendText("            exchange " + arraybsdr[bx].ToString() + " <-->  " + arraybsdr[bx + 1].ToString() + "\n");
+                            //swapping values
+                            double btemp = arraybsdr[bx];
+                            arraybsdr[bx] = arraybsdr[bx + 1];
+                            arraybsdr[bx + 1] = btemp;
+
+                            //print the new order of array
+                            rtbBSDR.AppendText("\n----------------------------------------\n");
+                            for (int bsdrx = 0; bsdrx < arraybsdr.Length; bsdrx++)
+                            {
+                                this.rtbBSDR.AppendText(arraybsdr[bsdrx].ToString() + " ");
+                            }                            
+                            rtbBSDR.AppendText("----------------------------------------\n\n");
+                        }
+                    }                   
+
+                    rtbBSDR.AppendText("    for i  <--  "+(bx+2).ToString()+" to " + (arraybsdr.Length - pass).ToString() + "\n");
+                }
+                rtbBSDR.AppendText("_____________________________\n\n");
+                //rtbBSDR.AppendText("----------------------------------------\n");
+            }
+            rtbBSDR.AppendText("----------------------------------------");
+            rtbBSDR.AppendText(" Sorted Data\n");
+            rtbBSDR.AppendText("----------------------------------------\n");
+            for (int bsdrx = 0; bsdrx < arraybsdr.Length; bsdrx++)
+            {
+                this.rtbBSDR.AppendText(arraybsdr[bsdrx].ToString() + "  ");
+            }
+            rtbBSDR.AppendText("\n\n");
+        }
+
+        private void txtDataBSDR_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.Equals(Keys.Enter))
+            {
+                btnRunBSDR_Click(sender, e);
+            }
+        }
+...........................................................................................
+
+txtDataISDR
+rdbAscISDR
+rdbDescISDR
